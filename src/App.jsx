@@ -16,7 +16,9 @@ import {
   FileJson,
   FileCode,
   ShieldCheck,
-  Table
+  Table,
+  Menu,
+  X
 } from 'lucide-react';
 import Workspace from './components/Workspace';
 
@@ -73,12 +75,21 @@ const ALL_TOOLS = [...JSON_TOOLS, ...JSON_CONVERTERS, ...XML_CONVERTERS, ...YAML
 function App() {
   const [activeCategory, setActiveCategory] = useState('tools'); // 'tools' | 'convert' | 'xml-convert' | 'yaml-convert' | 'csv-convert'
   const [activeToolId, setActiveToolId] = useState(null); // null means show grid
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   const activeTool = ALL_TOOLS.find(t => t.id === activeToolId);
 
   const handleCategorySelect = (cat) => {
     setActiveCategory(cat);
     setActiveToolId(null);
+    setIsMobileMenuOpen(false); // Close mobile menu on selection
+  };
+
+  const handleToolSelect = (toolId) => {
+    setActiveToolId(toolId);
+    // Tool selection happens inside the main content, so menu is already closed usually,
+    // but good practice just in case.
+    setIsMobileMenuOpen(false); 
   };
 
   const renderGrid = () => {
@@ -121,7 +132,7 @@ function App() {
               <div 
                 key={tool.id} 
                 className="tool-card"
-                onClick={() => setActiveToolId(tool.id)}
+                onClick={() => handleToolSelect(tool.id)}
               >
                 <div className="tool-icon-wrapper">
                   <Icon size={24} />
@@ -138,7 +149,26 @@ function App() {
 
   return (
     <div className="layout">
-      <aside className="sidebar">
+      {/* Mobile Menu Overlay */}
+      {isMobileMenuOpen && (
+        <div className="mobile-overlay" onClick={() => setIsMobileMenuOpen(false)}></div>
+      )}
+
+      {/* Fixed Mobile Top Header */}
+      <div className="mobile-top-header">
+        <div className="mobile-brand">
+          <Braces size={20} />
+          <span>JSON Studio</span>
+        </div>
+        <button 
+          className="mobile-menu-btn"
+          onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+        >
+          {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
+        </button>
+      </div>
+
+      <aside className={`sidebar ${isMobileMenuOpen ? 'mobile-open' : ''}`}>
         <div className="sidebar-header" style={{ cursor: 'pointer' }} onClick={() => handleCategorySelect('tools')}>
           <Braces size={24} />
           <span>JSON Studio</span>
