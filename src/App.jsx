@@ -39,6 +39,16 @@ const JSON_TOOLS = [
   { id: 'sorter', name: 'JSON Sorter', desc: 'Recursively sort all JSON keys alphabetically for easy reading.', icon: SortAsc },
 ];
 
+const XML_TOOLS = [
+  { id: 'xml-formatter', name: 'XML Formatter', desc: 'Format and indent your XML data beautifully.', icon: Braces },
+  { id: 'xml-minify', name: 'XML Minify', desc: 'Compress XML by removing all whitespace and newlines.', icon: Minimize2 },
+  { id: 'xml-viewer', name: 'XML Viewer', desc: 'View your XML with rich syntax highlighting.', icon: Code },
+  { id: 'xml-pretty-print', name: 'XML Pretty Print', desc: 'Beautify unreadable XML into a structured, readable format.', icon: FileText },
+  { id: 'xml-validator', name: 'XML Validator', desc: 'Check if your XML is perfectly valid and pinpoint errors.', icon: CheckCircle },
+  { id: 'xml-editor', name: 'XML Editor', desc: 'Edit your XML data with syntax highlighting and formatting.', icon: Edit3 },
+  { id: 'xml-parser', name: 'XML Parser', desc: 'Parse XML and validate its structural integrity.', icon: Code },
+];
+
 const JSON_CONVERTERS = [
   { id: 'convert-xml', mode: 'xml', name: 'JSON to XML', desc: 'Convert JSON to XML format.', icon: FileCode2 },
   { id: 'convert-csv', mode: 'csv', name: 'JSON to CSV', desc: 'Convert JSON to CSV format.', icon: FileSpreadsheet },
@@ -109,6 +119,10 @@ function App() {
       title = 'XML Converters';
       subtitle = 'Robust tools to parse and convert XML payloads into JSON, CSV, YAML, and more.';
       list = XML_CONVERTERS;
+    } else if (activeCategory === 'xml-tools') {
+      title = 'XML Tools';
+      subtitle = 'A complete suite of utilities to format, validate, minify, and parse your XML payloads.';
+      list = XML_TOOLS;
     } else if (activeCategory === 'yaml-convert') {
       title = 'YAML Converters';
       subtitle = 'Quickly and easily convert your YAML payloads into JSON, XML, CSV, and more.';
@@ -148,8 +162,15 @@ function App() {
   };
 
   return (
-    <div className="layout">
-      {/* Mobile Menu Overlay */}
+    <div className="app-container">
+      {/* Running Privacy Disclaimer Banner */}
+      <div className="running-banner">
+        <div className="banner-text">
+          🔒 Disclaimer: 100% Privacy Guaranteed. Your data is processed entirely within your browser and never leaves your device. 🔒
+        </div>
+      </div>
+      <div className="layout">
+        {/* Mobile Menu Overlay */}
       {isMobileMenuOpen && (
         <div className="mobile-overlay" onClick={() => setIsMobileMenuOpen(false)}></div>
       )}
@@ -194,6 +215,15 @@ function App() {
           </a>
 
           <a
+            className={`nav-item ${activeCategory === 'xml-tools' && activeToolId === null ? 'active' : ''}`}
+            onClick={() => handleCategorySelect('xml-tools')}
+            style={{ fontWeight: 600, color: 'var(--text-primary)' }}
+          >
+            <FolderOpen size={18} />
+            <span>XML tools</span>
+          </a>
+
+          <a
             className={`nav-item ${activeCategory === 'xml-convert' && activeToolId === null ? 'active' : ''}`}
             onClick={() => handleCategorySelect('xml-convert')}
             style={{ fontWeight: 600, color: 'var(--text-primary)' }}
@@ -231,6 +261,7 @@ function App() {
                 <button className="button secondary" onClick={() => setActiveToolId(null)}>
                   Back to {
                     activeCategory === 'tools' ? 'Tools' : 
+                    activeCategory === 'xml-tools' ? 'XML Tools' : 
                     activeCategory === 'convert' ? 'JSON Converters' : 
                     activeCategory === 'xml-convert' ? 'XML Converters' : 
                     activeCategory === 'yaml-convert' ? 'YAML Converters' : 'CSV Converters'
@@ -244,6 +275,7 @@ function App() {
           renderGrid()
         )}
       </main>
+    </div>
     </div>
   );
 }

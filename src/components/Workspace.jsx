@@ -8,6 +8,7 @@ import XmlConvertTool from './XmlConvertTool';
 import YamlConvertTool from './YamlConvertTool';
 import CsvConvertTool from './CsvConvertTool';
 import SchemaValidatorTool from './SchemaValidatorTool';
+import XmlTool from './XmlTool';
 
 export default function Workspace({ activeTool }) {
   if (!activeTool) return null;
@@ -18,6 +19,10 @@ export default function Workspace({ activeTool }) {
 
   if (activeTool.id.startsWith('xml-convert-')) {
     return <XmlConvertTool activeTool={activeTool} />;
+  }
+
+  if (activeTool.id.startsWith('xml-')) {
+    return <XmlTool activeTool={activeTool} />;
   }
 
   if (activeTool.id.startsWith('yaml-convert-')) {
