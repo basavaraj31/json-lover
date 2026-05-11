@@ -18,7 +18,7 @@ export default function YamlConvertTool({ activeTool }) {
     }
   }, [mode]);
 
-  const handleConvert = () => {
+  function handleConvert() {
     setError(null);
     setOutput('');
 
@@ -42,13 +42,14 @@ export default function YamlConvertTool({ activeTool }) {
           result = jsonToXml(parsedObj);
           break;
         case 'csv':
-        case 'tsv':
+        case 'tsv': {
           const dataForPapa = Array.isArray(parsedObj) ? parsedObj : [parsedObj];
           result = Papa.unparse(dataForPapa, {
             delimiter: mode === 'tsv' ? '\t' : ',',
             header: true
           });
           break;
+        }
         case 'string':
           result = JSON.stringify(input);
           break;

@@ -18,7 +18,7 @@ export default function XmlConvertTool({ activeTool }) {
     }
   }, [mode]);
 
-  const handleConvert = () => {
+  function handleConvert() {
     setError(null);
     setOutput('');
 
@@ -47,7 +47,7 @@ export default function XmlConvertTool({ activeTool }) {
           result = yaml.dump(parsedObj);
           break;
         case 'csv':
-        case 'tsv':
+        case 'tsv': {
           // For CSV/TSV, we want to flatten. Let's try to find an array in the parsed object if the root isn't one.
           // In XML, repeated tags become arrays. We extract the first array we find, or just wrap the object.
           let dataForPapa = [parsedObj];
@@ -71,6 +71,7 @@ export default function XmlConvertTool({ activeTool }) {
             header: true
           });
           break;
+        }
         case 'string':
           result = JSON.stringify(input);
           break;

@@ -80,7 +80,7 @@ const CSV_CONVERTERS = [
   { id: 'csv-convert-html', mode: 'html', name: 'CSV to HTML', desc: 'Convert CSV to an HTML Table.', icon: FileCode },
 ];
 
-const ALL_TOOLS = [...JSON_TOOLS, ...JSON_CONVERTERS, ...XML_CONVERTERS, ...YAML_CONVERTERS, ...CSV_CONVERTERS];
+const ALL_TOOLS = [...JSON_TOOLS, ...XML_TOOLS, ...JSON_CONVERTERS, ...XML_CONVERTERS, ...YAML_CONVERTERS, ...CSV_CONVERTERS];
 
 function App() {
   const [activeCategory, setActiveCategory] = useState('tools'); // 'tools' | 'convert' | 'xml-convert' | 'yaml-convert' | 'csv-convert'
