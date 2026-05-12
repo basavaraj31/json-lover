@@ -1,13 +1,43 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Play, Copy, Check } from 'lucide-react';
 import { XMLParser, XMLBuilder, XMLValidator } from 'fast-xml-parser';
 
+const DEFAULT_XML = `<?xml version="1.0" encoding="UTF-8"?>
+<root>
+  <item id="1">
+    <name>Hello World</name>
+  </item>
+</root>`;
+
+const DEFAULT_SOAP = `<?xml version="1.0"?>
+<soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">
+    <soap:Header>
+        <Authentication>
+            <Email>user</Email>
+            <Password>pass</Password>
+        </Authentication>
+    </soap:Header>
+    <soap:Body>
+        <GetCustomerRequest>
+            <CustomerId>2</CustomerId>
+            <IncludeOrders>true</IncludeOrders>
+        </GetCustomerRequest>
+    </soap:Body>
+</soap:Envelope>`;
+
 export default function XmlTool({ activeTool }) {
-  const [input, setInput] = useState('<?xml version="1.0" encoding="UTF-8"?>\n<root>\n  <item id="1">\n    <name>Hello World</name>\n  </item>\n</root>');
+  const [input, setInput] = useState(activeTool.id === 'soap-formatter' ? DEFAULT_SOAP : DEFAULT_XML);
   const [output, setOutput] = useState('');
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
   const [copied, setCopied] = useState(false);
+
+  useEffect(() => {
+    setInput(activeTool.id === 'soap-formatter' ? DEFAULT_SOAP : DEFAULT_XML);
+    setOutput('');
+    setError('');
+    setSuccess('');
+  }, [activeTool.id]);
 
   const isValidator = activeTool.id === 'xml-validator' || activeTool.id === 'xml-parser';
 
@@ -59,7 +89,7 @@ export default function XmlTool({ activeTool }) {
       const processedXml = builder.build(parsedObj);
       setOutput(processedXml.trim());
 
-      if (activeTool.id === 'xml-formatter' || activeTool.id === 'xml-pretty-print') {
+      if (activeTool.id === 'xml-formatter' || activeTool.id === 'xml-pretty-print' || activeTool.id === 'wsdl-formatter' || activeTool.id === 'soap-formatter') {
         setSuccess('XML beautifully formatted!');
       } else if (activeTool.id === 'xml-minify') {
         setSuccess('XML successfully minified!');

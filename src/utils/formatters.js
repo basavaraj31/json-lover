@@ -53,3 +53,69 @@ export function jsonToXml(obj, rootName = 'root') {
   
   return formatted.replace(/\n\s*\n/g, '\n').trim();
 }
+
+export function jsonToProtobuf(json, messageName = 'RootMessage') {
+  let output = 'syntax = "proto3";\n\n';
+  const messages = [];
+
+  function capitalize(str) {
+    return str.charAt(0).toUpperCase() + str.slice(1);
+  }
+
+  function generateMessage(obj, name) {
+    let msg = `message ${name} {\n`;
+    let fieldCount = 1;
+
+    for (const key in obj) {
+      if (Object.prototype.hasOwnProperty.call(obj, key)) {
+        const val = obj[key];
+        let type = 'string';
+
+        if (val === null) {
+          type = 'string';
+        } else if (typeof val === 'number') {
+          type = Number.isInteger(val) ? 'int32' : 'double';
+        } else if (typeof val === 'boolean') {
+          type = 'bool';
+        } else if (Array.isArray(val)) {
+          if (val.length > 0) {
+            const firstItem = val[0];
+            if (typeof firstItem === 'object' && firstItem !== null && !Array.isArray(firstItem)) {
+              const subName = capitalize(key) + 'Item';
+              generateMessage(firstItem, subName);
+              type = `repeated ${subName}`;
+            } else if (typeof firstItem === 'number') {
+              type = Number.isInteger(firstItem) ? 'repeated int32' : 'repeated double';
+            } else if (typeof firstItem === 'boolean') {
+              type = 'repeated bool';
+            } else {
+              type = 'repeated string';
+            }
+          } else {
+             type = 'repeated string';
+          }
+        } else if (typeof val === 'object') {
+          const subName = capitalize(key);
+          generateMessage(val, subName);
+          type = subName;
+        }
+
+        msg += `  ${type} ${key} = ${fieldCount};\n`;
+        fieldCount++;
+      }
+    }
+    msg += `}\n`;
+    messages.push(msg);
+  }
+
+  if (typeof json === 'object' && json !== null && !Array.isArray(json)) {
+     generateMessage(json, messageName);
+  } else if (Array.isArray(json) && json.length > 0 && typeof json[0] === 'object' && json[0] !== null) {
+     generateMessage(json[0], messageName);
+  } else {
+     generateMessage({ value: json }, messageName);
+  }
+
+  output += messages.reverse().join('\n');
+  return output;
+}

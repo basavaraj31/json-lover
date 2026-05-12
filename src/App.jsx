@@ -37,6 +37,13 @@ const JSON_TOOLS = [
   { id: 'one-line', name: 'JSON to One Line', desc: 'Condense any formatted JSON into a single line of text.', icon: AlignLeft },
   { id: 'compare', name: 'JSON Compare', desc: 'Highlight the exact differences between two JSON structures.', icon: GitCompare },
   { id: 'sorter', name: 'JSON Sorter', desc: 'Recursively sort all JSON keys alphabetically for easy reading.', icon: SortAsc },
+  { id: 'convert-xml', mode: 'xml', name: 'JSON to XML', desc: 'Convert JSON to XML format.', icon: FileCode2 },
+  { id: 'convert-csv', mode: 'csv', name: 'JSON to CSV', desc: 'Convert JSON to CSV format.', icon: FileSpreadsheet },
+  { id: 'convert-yaml', mode: 'yaml', name: 'JSON to YAML', desc: 'Convert JSON to YAML format.', icon: FileText },
+  { id: 'convert-tsv', mode: 'tsv', name: 'JSON to TSV', desc: 'Convert JSON to TSV format.', icon: FileSpreadsheet },
+  { id: 'convert-string', mode: 'string', name: 'JSON to String', desc: 'Convert JSON to an escaped String payload.', icon: FileJson },
+  { id: 'convert-protobuf', mode: 'protobuf', name: 'JSON to Protobuf', desc: 'Generate a Protobuf schema from JSON.', icon: Code },
+  { id: 'json-to-table', name: 'JSON to Table', desc: 'Render your JSON data into a clean, readable HTML table.', icon: Table },
 ];
 
 const XML_TOOLS = [
@@ -47,25 +54,18 @@ const XML_TOOLS = [
   { id: 'xml-validator', name: 'XML Validator', desc: 'Check if your XML is perfectly valid and pinpoint errors.', icon: CheckCircle },
   { id: 'xml-editor', name: 'XML Editor', desc: 'Edit your XML data with syntax highlighting and formatting.', icon: Edit3 },
   { id: 'xml-parser', name: 'XML Parser', desc: 'Parse XML and validate its structural integrity.', icon: Code },
-];
-
-const JSON_CONVERTERS = [
-  { id: 'convert-xml', mode: 'xml', name: 'JSON to XML', desc: 'Convert JSON to XML format.', icon: FileCode2 },
-  { id: 'convert-csv', mode: 'csv', name: 'JSON to CSV', desc: 'Convert JSON to CSV format.', icon: FileSpreadsheet },
-  { id: 'convert-yaml', mode: 'yaml', name: 'JSON to YAML', desc: 'Convert JSON to YAML format.', icon: FileText },
-  { id: 'convert-tsv', mode: 'tsv', name: 'JSON to TSV', desc: 'Convert JSON to TSV format.', icon: FileSpreadsheet },
-  { id: 'convert-string', mode: 'string', name: 'JSON to String', desc: 'Convert JSON to an escaped String payload.', icon: FileJson },
-];
-
-const XML_CONVERTERS = [
   { id: 'xml-convert-json', mode: 'json', name: 'XML to JSON', desc: 'Convert XML to JSON format.', icon: Braces },
   { id: 'xml-convert-csv', mode: 'csv', name: 'XML to CSV', desc: 'Convert XML to CSV format.', icon: FileSpreadsheet },
   { id: 'xml-convert-yaml', mode: 'yaml', name: 'XML to YAML', desc: 'Convert XML to YAML format.', icon: FileText },
   { id: 'xml-convert-tsv', mode: 'tsv', name: 'XML to TSV', desc: 'Convert XML to TSV format.', icon: FileSpreadsheet },
   { id: 'xml-convert-string', mode: 'string', name: 'XML to String', desc: 'Convert XML to an escaped String payload.', icon: FileJson },
+  { id: 'wsdl-formatter', name: 'WSDL Formatter', desc: 'Format and indent your WSDL documents beautifully.', icon: Braces },
+  { id: 'soap-formatter', name: 'SOAP Formatter', desc: 'Format and indent your SOAP envelopes beautifully.', icon: Braces },
+  { id: 'xml-to-table', name: 'XML to Table', desc: 'Render your XML data into a clean, readable HTML table.', icon: Table },
 ];
 
-const YAML_CONVERTERS = [
+
+const YAML_TOOLS = [
   { id: 'yaml-convert-json', mode: 'json', name: 'YAML to JSON', desc: 'Convert YAML to JSON format.', icon: Braces },
   { id: 'yaml-convert-xml', mode: 'xml', name: 'YAML to XML', desc: 'Convert YAML to XML format.', icon: FileCode2 },
   { id: 'yaml-convert-csv', mode: 'csv', name: 'YAML to CSV', desc: 'Convert YAML to CSV format.', icon: FileSpreadsheet },
@@ -73,17 +73,41 @@ const YAML_CONVERTERS = [
   { id: 'yaml-convert-string', mode: 'string', name: 'YAML to String', desc: 'Convert YAML to an escaped String payload.', icon: FileJson },
 ];
 
-const CSV_CONVERTERS = [
+const CSV_TOOLS = [
   { id: 'csv-convert-json', mode: 'json', name: 'CSV to JSON', desc: 'Convert CSV to JSON format.', icon: Braces },
   { id: 'csv-convert-xml', mode: 'xml', name: 'CSV to XML', desc: 'Convert CSV to XML format.', icon: FileCode2 },
   { id: 'csv-convert-yaml', mode: 'yaml', name: 'CSV to YAML', desc: 'Convert CSV to YAML format.', icon: FileText },
   { id: 'csv-convert-html', mode: 'html', name: 'CSV to HTML', desc: 'Convert CSV to an HTML Table.', icon: FileCode },
 ];
 
-const ALL_TOOLS = [...JSON_TOOLS, ...XML_TOOLS, ...JSON_CONVERTERS, ...XML_CONVERTERS, ...YAML_CONVERTERS, ...CSV_CONVERTERS];
+const BASE64_TOOLS = [
+  { id: 'base64-encode', name: 'Base64 Encoder', desc: 'Encode a string to Base64 format.', icon: Code },
+  { id: 'base64-decode', name: 'Base64 Decoder', desc: 'Decode a Base64 string to readable text.', icon: Code },
+  { id: 'base64-validator', name: 'Base64 Validator', desc: 'Check if a string is a valid Base64 encoded string.', icon: ShieldCheck },
+  { id: 'base64url-encode', name: 'Base64 URL Encoder', desc: 'Encode a string to Base64URL format.', icon: Code },
+  { id: 'base64url-decode', name: 'Base64 URL Decoder', desc: 'Decode a Base64URL string back to original text.', icon: Code },
+  { id: 'hex-to-base64', name: 'Hex to Base64', desc: 'Convert Hexadecimal data to Base64.', icon: Code },
+  { id: 'base64-to-hex', name: 'Base64 to Hex', desc: 'Convert Base64 data to Hexadecimal.', icon: Code },
+  { id: 'binary-to-base64', name: 'Binary to Base64', desc: 'Convert Binary data to Base64.', icon: Code },
+  { id: 'base64-to-binary', name: 'Base64 to Binary', desc: 'Convert Base64 data to Binary.', icon: Code },
+  { id: 'ascii-to-base64', name: 'ASCII to Base64', desc: 'Convert ASCII string to Base64.', icon: Code },
+  { id: 'base64-to-ascii', name: 'Base64 to ASCII', desc: 'Convert Base64 to ASCII string.', icon: Code },
+  { id: 'utf8-to-base64', name: 'UTF-8 to Base64', desc: 'Convert UTF-8 string to Base64.', icon: Code },
+  { id: 'base64-to-utf8', name: 'Base64 to UTF-8', desc: 'Convert Base64 to UTF-8 string.', icon: Code },
+  { id: 'string-to-base64', name: 'String to Base64', desc: 'Convert any string to Base64.', icon: Code },
+  { id: 'base64-to-string', name: 'Base64 to String', desc: 'Convert Base64 back to string.', icon: Code },
+];
+
+const JAVASCRIPT_TOOLS = [
+  { id: 'js-to-ts', name: 'JS to TS Converter', desc: 'Convert JavaScript code into TypeScript syntax.', icon: FileCode2 },
+  { id: 'es5-to-es6', name: 'ES5 to ES6+ Converter', desc: 'Upgrade old JavaScript (ES5) to modern syntax (ES6+).', icon: FileCode2 },
+  { id: 'js-transpiler', name: 'JavaScript Transpiler', desc: 'Transpile modern JavaScript into older ES5 for compatibility.', icon: Code },
+];
+
+const ALL_TOOLS = [...JSON_TOOLS, ...XML_TOOLS, ...YAML_TOOLS, ...CSV_TOOLS, ...BASE64_TOOLS, ...JAVASCRIPT_TOOLS];
 
 function App() {
-  const [activeCategory, setActiveCategory] = useState('tools'); // 'tools' | 'convert' | 'xml-convert' | 'yaml-convert' | 'csv-convert'
+  const [activeCategory, setActiveCategory] = useState('tools'); // 'tools' | 'xml-tools' | 'yaml-tools' | 'csv-tools' | 'base64-tools' | 'javascript-tools'
   const [activeToolId, setActiveToolId] = useState(null); // null means show grid
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
@@ -111,26 +135,26 @@ function App() {
       title = 'JSON Developer Tools';
       subtitle = 'Your complete suite for formatting, validating, comparing, and managing JSON payloads.';
       list = JSON_TOOLS;
-    } else if (activeCategory === 'convert') {
-      title = 'JSON Converters';
-      subtitle = 'Quickly and easily convert your JSON payloads into other popular data formats.';
-      list = JSON_CONVERTERS;
-    } else if (activeCategory === 'xml-convert') {
-      title = 'XML Converters';
-      subtitle = 'Robust tools to parse and convert XML payloads into JSON, CSV, YAML, and more.';
-      list = XML_CONVERTERS;
     } else if (activeCategory === 'xml-tools') {
       title = 'XML Tools';
       subtitle = 'A complete suite of utilities to format, validate, minify, and parse your XML payloads.';
       list = XML_TOOLS;
-    } else if (activeCategory === 'yaml-convert') {
-      title = 'YAML Converters';
+    } else if (activeCategory === 'yaml-tools') {
+      title = 'YAML Tools';
       subtitle = 'Quickly and easily convert your YAML payloads into JSON, XML, CSV, and more.';
-      list = YAML_CONVERTERS;
-    } else if (activeCategory === 'csv-convert') {
-      title = 'CSV Converters';
+      list = YAML_TOOLS;
+    } else if (activeCategory === 'csv-tools') {
+      title = 'CSV Tools';
       subtitle = 'Convert your CSV data directly into JSON, XML, YAML, or HTML tables.';
-      list = CSV_CONVERTERS;
+      list = CSV_TOOLS;
+    } else if (activeCategory === 'base64-tools') {
+      title = 'Base64 Tools';
+      subtitle = 'A complete suite of utilities for encoding, decoding, and validating Base64 data.';
+      list = BASE64_TOOLS;
+    } else if (activeCategory === 'javascript-tools') {
+      title = 'JavaScript Tools';
+      subtitle = 'Convert, transpile, and upgrade your JavaScript and TypeScript code instantly.';
+      list = JAVASCRIPT_TOOLS;
     }
 
     return (
@@ -206,15 +230,6 @@ function App() {
           </a>
 
           <a
-            className={`nav-item ${activeCategory === 'convert' && activeToolId === null ? 'active' : ''}`}
-            onClick={() => handleCategorySelect('convert')}
-            style={{ fontWeight: 600, color: 'var(--text-primary)' }}
-          >
-            <FileCode2 size={18} />
-            <span>Json convert</span>
-          </a>
-
-          <a
             className={`nav-item ${activeCategory === 'xml-tools' && activeToolId === null ? 'active' : ''}`}
             onClick={() => handleCategorySelect('xml-tools')}
             style={{ fontWeight: 600, color: 'var(--text-primary)' }}
@@ -224,30 +239,39 @@ function App() {
           </a>
 
           <a
-            className={`nav-item ${activeCategory === 'xml-convert' && activeToolId === null ? 'active' : ''}`}
-            onClick={() => handleCategorySelect('xml-convert')}
-            style={{ fontWeight: 600, color: 'var(--text-primary)' }}
-          >
-            <FileCode size={18} />
-            <span>XML converter</span>
-          </a>
-
-          <a
-            className={`nav-item ${activeCategory === 'yaml-convert' && activeToolId === null ? 'active' : ''}`}
-            onClick={() => handleCategorySelect('yaml-convert')}
+            className={`nav-item ${activeCategory === 'yaml-tools' && activeToolId === null ? 'active' : ''}`}
+            onClick={() => handleCategorySelect('yaml-tools')}
             style={{ fontWeight: 600, color: 'var(--text-primary)' }}
           >
             <FileText size={18} />
-            <span>YAML converter</span>
+            <span>YAML tools</span>
           </a>
 
           <a
-            className={`nav-item ${activeCategory === 'csv-convert' && activeToolId === null ? 'active' : ''}`}
-            onClick={() => handleCategorySelect('csv-convert')}
+            className={`nav-item ${activeCategory === 'csv-tools' && activeToolId === null ? 'active' : ''}`}
+            onClick={() => handleCategorySelect('csv-tools')}
             style={{ fontWeight: 600, color: 'var(--text-primary)' }}
           >
             <Table size={18} />
-            <span>CSV converter</span>
+            <span>CSV tools</span>
+          </a>
+
+          <a
+            className={`nav-item ${activeCategory === 'base64-tools' && activeToolId === null ? 'active' : ''}`}
+            onClick={() => handleCategorySelect('base64-tools')}
+            style={{ fontWeight: 600, color: 'var(--text-primary)' }}
+          >
+            <FileCode size={18} />
+            <span>Base64 tools</span>
+          </a>
+
+          <a
+            className={`nav-item ${activeCategory === 'javascript-tools' && activeToolId === null ? 'active' : ''}`}
+            onClick={() => handleCategorySelect('javascript-tools')}
+            style={{ fontWeight: 600, color: 'var(--text-primary)' }}
+          >
+            <Code size={18} />
+            <span>Javascript tools</span>
           </a>
 
         </nav>
@@ -262,9 +286,9 @@ function App() {
                   Back to {
                     activeCategory === 'tools' ? 'Tools' : 
                     activeCategory === 'xml-tools' ? 'XML Tools' : 
-                    activeCategory === 'convert' ? 'JSON Converters' : 
-                    activeCategory === 'xml-convert' ? 'XML Converters' : 
-                    activeCategory === 'yaml-convert' ? 'YAML Converters' : 'CSV Converters'
+                    activeCategory === 'yaml-tools' ? 'YAML Tools' : 
+                    activeCategory === 'base64-tools' ? 'Base64 Tools' : 
+                    activeCategory === 'javascript-tools' ? 'JavaScript Tools' : 'CSV Tools'
                   }
                 </button>
               </div>

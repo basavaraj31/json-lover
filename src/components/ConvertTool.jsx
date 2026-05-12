@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Play, Copy, Check } from 'lucide-react';
 import yaml from 'js-yaml';
 import Papa from 'papaparse';
-import { jsonToXml } from '../utils/formatters';
+import { jsonToXml, jsonToProtobuf } from '../utils/formatters';
 
 export default function ConvertTool({ activeTool }) {
   const [input, setInput] = useState('');
@@ -46,6 +46,9 @@ export default function ConvertTool({ activeTool }) {
           break;
         case 'string':
           result = JSON.stringify(JSON.stringify(parsed));
+          break;
+        case 'protobuf':
+          result = jsonToProtobuf(parsed);
           break;
         default:
           result = 'Unknown conversion mode';
